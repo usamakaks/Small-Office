@@ -4,7 +4,8 @@ A secure, segmented network for a 30-person accounting firm, designed from clien
 
 The project covers the full workflow a network engineer follows: **requirements → logical design → physical design → phased build → verification → documentation.**
 
-![Topology](images/topology.png)
+![Topology](<img width="1266" height="409" alt="project1" src="https://github.com/user-attachments/assets/6daa3d41-3574-4571-9406-1011058d25de" />
+)
 
 ---
 

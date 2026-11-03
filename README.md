@@ -1,11 +1,14 @@
-Small Office Network Design (Cisco Packet Tracer)
+# Small Office Network Design (Cisco Packet Tracer)
 
 A secure, segmented network for a 30-person accounting firm, designed from client requirements and built and verified in Cisco Packet Tracer.
 
-The project covers the full workflow a network engineer follows: **requirements → logical design → physical design → phased build → verification → documentation.
+The project covers the full workflow a network engineer follows: **requirements → logical design → physical design → phased build → verification → documentation.**
 
+![Topology](images/topology.png)
 
- Highlights
+---
+
+## Highlights
 
 - **5 user/infrastructure VLANs** plus a parking VLAN and an unused native VLAN
 - **VLSM addressing** sized for 50% growth, with a reserved block for future VLANs
@@ -18,7 +21,7 @@ The project covers the full workflow a network engineer follows: **requirements 
 
 ---
 
-Requirements
+## Requirements
 
 | Group | Devices | Needs |
 | --- | --- | --- |
@@ -29,11 +32,11 @@ Requirements
 | IT | Router and switches | Secure remote management |
 | Internet | 1 public IP | 203.0.113.2/30 from the ISP |
 
-The client expects roughly 50% growth within two years.
+The client expects roughly **50% growth** within two years.
 
 ---
 
-Devices
+## Devices
 
 | Device | Model | Role |
 | --- | --- | --- |
@@ -45,7 +48,7 @@ Devices
 
 ---
 
- VLAN Design
+## VLAN Design
 
 | VLAN | Name | Purpose |
 | --- | --- | --- |
@@ -57,7 +60,7 @@ Devices
 | 998 | UNUSED | Parking VLAN for shut-down ports |
 | 999 | NATIVE | Native VLAN on trunks (carries no users) |
 
-Trunks
+**Trunks**
 
 | Link | Allowed VLANs | Native |
 | --- | --- | --- |
@@ -66,7 +69,7 @@ Trunks
 
 ---
 
-IP Addressing Plan
+## IP Addressing Plan
 
 Internal range: `192.168.10.0/24`, allocated largest subnet first. Gateways use the first usable address.
 
@@ -90,7 +93,7 @@ Internal range: `192.168.10.0/24`, allocated largest subnet first. Gateways use 
 
 ---
 
- Security Policy
+## Security Policy
 
 | Source | Internal network | Internet | Device management |
 | --- | --- | --- | --- |
@@ -100,7 +103,7 @@ Internal range: `192.168.10.0/24`, allocated largest subnet first. Gateways use 
 | Servers / printer | ✅ | ❌ | ❌ |
 | IT-ADMIN PC | ✅ | ❌ | ✅ SSH only |
 
-How it is enforced**
+**How it is enforced**
 
 | Control | Where | Purpose |
 | --- | --- | --- |
@@ -114,9 +117,9 @@ How it is enforced**
 
 ---
 
- Key Configuration Examples
+## Key Configuration Examples
 
-Router-on-a-stick subinterface (R1)**
+**Router-on-a-stick subinterface (R1)**
 ```
 interface GigabitEthernet0/0/0.10
  encapsulation dot1Q 10
@@ -124,7 +127,7 @@ interface GigabitEthernet0/0/0.10
  ip nat inside
 ```
 
-PAT for user VLANs only (R1)**
+**PAT for user VLANs only (R1)**
 ```
 ip access-list standard NAT-USERS
  permit 192.168.10.0 0.0.0.63
@@ -135,7 +138,7 @@ ip nat inside source list NAT-USERS interface GigabitEthernet0/0/1 overload
 ip route 0.0.0.0 0.0.0.0 203.0.113.1
 ```
 
-Guest isolation (R1)**
+**Guest isolation (R1)**
 ```
 ip access-list extended GUEST-IN
  permit udp any any eq bootps
@@ -146,7 +149,7 @@ interface GigabitEthernet0/0/0.30
  ip access-group GUEST-IN in
 ```
 
-Management access (all devices)**
+**Management access (all devices)**
 ```
 ip access-list standard MGMT-ACCESS
  permit host 192.168.10.156
@@ -162,7 +165,7 @@ Full configurations are in [`configs/`](configs/).
 
 ---
 
- Build Phases
+## Build Phases
 
 1. **Layer 2:** VLANs, access ports, pruned trunks, unused ports parked and shut down
 2. **Inter-VLAN routing:** R1 subinterfaces, switch management SVIs
@@ -175,7 +178,7 @@ Each phase was verified before the next began.
 
 ---
 
-Verification
+## Verification
 
 | Test | Expected | Result |
 | --- | --- | --- |
@@ -192,7 +195,7 @@ Verification
 
 ---
 
-Troubleshooting Log
+## Troubleshooting Log
 
 Real problems found during the build, and how verification output exposed them:
 
@@ -207,7 +210,7 @@ Real problems found during the build, and how verification output exposed them:
 
 ---
 
-Lessons Learned
+## Lessons Learned
 
 - Know what correct output looks like **before** running a `show` command.
 - Adding configuration never removes old configuration. Always check `show running-config`.
@@ -217,7 +220,7 @@ Lessons Learned
 
 ---
 
-Repository Structure
+## Repository Structure
 
 ```
 .
@@ -234,7 +237,7 @@ Repository Structure
     └── topology.png
 ```
 
- How to Use
+## How to Use
 
 1. Install [Cisco Packet Tracer](https://www.netacad.com/courses/packet-tracer) (8.x or later).
 2. Open `Project1-Small-Office.pkt`.
@@ -243,13 +246,13 @@ Repository Structure
 
 ---
 
- Next Project
+## Next Project
 
 **Project 2: School campus network:** hierarchical design, multilayer switching with SVIs, EtherChannel, Rapid PVST+, HSRP and a wireless LAN controller.
 
 ---
 
-Author
+## Author
 
-KAKEMBO USAMA · CCNA · Aspiring Network Engineer
+**KAKEMBO USAMA** · CCNA · Aspiring Network Engineer
 https://linkedin.com/in/usamakakembo · https://github.com/usamakaks
